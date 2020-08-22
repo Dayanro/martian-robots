@@ -1,0 +1,26 @@
+{
+  "name": "martian-robots",
+  "version": "0.0.1",
+  "description": "Martian robots challenge",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dayanro/martian-robots.git"
+  },
+  "author": "Dayan Rojas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dayanro/martian-robots/issues"
+  },
+  "homepage": "https://github.com/Dayanro/martian-robots#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.0"
+  },
+  "dependencies": {}
+}
