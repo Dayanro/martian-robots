@@ -5,14 +5,16 @@ export const createRobot = (xCoordinate, yCoordinate, orientation, instructions 
         y: yCoordinate
     },
     orientation,
-    instructions
+    instructions,
+    isAlive:true
 })
 
-export const processInstructions = (robot) => {
+export const processInstructions = (robot, gridLimit, scents) => {
     let updatedRobot = { ...robot }
     let { instructions } = updatedRobot
     instructions.forEach(instruction => {
-        let { position, orientation } = updatedRobot
+        let { position, orientation, isAlive } = updatedRobot
+       
         switch (instruction) {
             case "L":
                 updatedRobot = {
@@ -26,7 +28,7 @@ export const processInstructions = (robot) => {
                 break
             case "F":
                 updatedRobot = {
-                    ...updatedRobot, ...moveForward(orientation, position.x, position.y)
+                    ...updatedRobot, ...moveForward(orientation, position.x, position.y, gridLimit, scents)
                 }
                 break
         }
@@ -72,10 +74,9 @@ const turnsRight = (orientation) => {
     return  { orientation: newOrientation }
 }
 
-const moveForward = (orientation, positionX, positionY) => {
+const moveForward = (orientation, positionX, positionY, gridLimit, scents) => {
     let updatedXCoordinate = positionX
     let updatedYCoordinate = positionY
-
     switch (orientation) {
         case "N":
             updatedYCoordinate++;
@@ -90,9 +91,30 @@ const moveForward = (orientation, positionX, positionY) => {
             updatedXCoordinate--;
             break; 
     }
+    if (!checkBoundaries(orientation, updatedXCoordinate, updatedYCoordinate, gridLimit)) { 
     return {
         position: {
             x: updatedXCoordinate,
             y: updatedYCoordinate
-        }}
+            }
+        }
+    } else {
+        return { 
+            isAlive: checkScents(scents, positionX, positionY) ? true : false
+        }
+    }
+}
+
+const checkBoundaries = (orientation, positionX, positionY, gridLimit) => { 
+    if ((orientation == "W" && positionX < 0) ||
+        (orientation == "S" && positionY > 0) ||
+        (orientation == "E" && positionX> gridLimit.x) ||
+        (orientation == "N" && positionY > gridLimit.y)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+const checkScents = (scents, positionX, positionY) => { 
+    return scents.filter((point) => point.x === positionX && point.y === positionY).length > 0
 }

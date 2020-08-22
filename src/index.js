@@ -5,6 +5,7 @@ const gridLimit = {}
 const position = []
 const instruction= []
 const robots = []
+const scents=[]
 
 try {
     const data = fs.readFileSync('input.txt', 'UTF-8');
@@ -12,8 +13,8 @@ try {
     lines.forEach((line, index) => {
         if (!gridLimit.x && !gridLimit.y) {
             const coordinates = line.split(" ")
-            gridLimit.x = coordinates[0]
-            gridLimit.y = coordinates[1]
+            gridLimit.x = parseInt(coordinates[0],10)
+            gridLimit.y = parseInt(coordinates[1],10)
         } else { 
             (index & 1) ? position.push(line) : instruction.push(line)
         }
@@ -32,6 +33,8 @@ for (let i = 0; i < position.length; i++){
 }
 
 robots.map(robot => { 
-    const updatedRobot = processInstructions(robot)
+    const updatedRobot = processInstructions(robot, gridLimit, scents)
+    updatedRobot.isAlive  || scents.push({ x: updatedRobot.position.x, y: updatedRobot.position.y}) 
 })
+
 
