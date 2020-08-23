@@ -1,4 +1,3 @@
-
 export const createRobot = (xCoordinate, yCoordinate, orientation, instructions ) => ({
     position: {
         x: xCoordinate,
@@ -9,11 +8,21 @@ export const createRobot = (xCoordinate, yCoordinate, orientation, instructions 
     isAlive:true
 })
 
-export const processInstructions = (robot, gridLimit, scents) => {
+export const processRobotInstructions = (robots, gridLimit) => {
+    const scents = []
+    robots.map(robot => {
+        const updatedRobot = processInstructions(robot, gridLimit, scents)
+        const { position, orientation, isAlive } = updatedRobot
+        isAlive || scents.push({ x: position.x, y: position.y })
+        printRobotOutput(position.x, position.y, orientation, isAlive)
+    })
+}
+
+const processInstructions = (robot, gridLimit, scents) => {
     let updatedRobot = { ...robot }
     let { instructions } = updatedRobot
     instructions.forEach(instruction => {
-        let { position, orientation, isAlive } = updatedRobot
+        let { position, orientation} = updatedRobot
        
         switch (instruction) {
             case "L":
@@ -117,4 +126,9 @@ const checkBoundaries = (orientation, positionX, positionY, gridLimit) => {
 }
 const checkScents = (scents, positionX, positionY) => { 
     return scents.filter((point) => point.x === positionX && point.y === positionY).length > 0
+}
+
+const printRobotOutput = (positionX, positionY, orientation, isAlive) => {
+    const output = `${positionX} ${positionY} ${orientation} ${isAlive ? "" : "LOST"}`
+    console.log(output)
 }
