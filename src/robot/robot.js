@@ -18,7 +18,7 @@ export const processRobotInstructions = (robots, gridLimit) => {
     })
 }
 
-const processInstructions = (robot, gridLimit, scents) => {
+export const processInstructions = (robot, gridLimit, scents) => {
     let updatedRobot = { ...robot }
     let { instructions } = updatedRobot
     instructions.forEach(instruction => {
@@ -45,7 +45,7 @@ const processInstructions = (robot, gridLimit, scents) => {
     return updatedRobot
 }
 
-const turnsLeft = (orientation) => {
+export const turnsLeft = (orientation) => {
     let newOrientation=""
     switch (orientation) {
         case "N":
@@ -64,7 +64,7 @@ const turnsLeft = (orientation) => {
     return  { orientation: newOrientation}
 }
 
-const turnsRight = (orientation) => {
+export const turnsRight = (orientation) => {
     let newOrientation = ""
     switch (orientation) {
         case "N":
@@ -83,7 +83,7 @@ const turnsRight = (orientation) => {
     return  { orientation: newOrientation }
 }
 
-const moveForward = (orientation, positionX, positionY, gridLimit, scents) => {
+export const moveForward = (orientation, positionX, positionY, gridLimit, scents) => {
     let updatedXCoordinate = positionX
     let updatedYCoordinate = positionY
     switch (orientation) {
@@ -114,21 +114,23 @@ const moveForward = (orientation, positionX, positionY, gridLimit, scents) => {
     }
 }
 
-const checkBoundaries = (orientation, positionX, positionY, gridLimit) => { 
+export const checkBoundaries = (orientation, positionX, positionY, gridLimit) => { 
     if ((orientation == "W" && positionX < 0) ||
         (orientation == "S" && positionY > 0) ||
-        (orientation == "E" && positionX> gridLimit.x) ||
+        (orientation == "E" && positionX > gridLimit.x) ||
         (orientation == "N" && positionY > gridLimit.y)) {
         return true;
     } else {
         return false;
     }
 }
-const checkScents = (scents, positionX, positionY) => { 
+
+export const checkScents = (scents, positionX, positionY) => { 
     return scents.filter((point) => point.x === positionX && point.y === positionY).length > 0
 }
 
-const printRobotOutput = (positionX, positionY, orientation, isAlive) => {
+export const printRobotOutput = (positionX, positionY, orientation, isAlive) => {
     const output = `${positionX} ${positionY} ${orientation} ${isAlive ? "" : "LOST"}`
     console.log(output)
+    return output
 }

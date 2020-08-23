@@ -1,16 +1,18 @@
 const fs = require('fs');
+const path = require("path");
+
 import { createRobot,processRobotInstructions } from './../robot/robot.js'
 
 export const processData = (fileName) => {
     processRobots(processInputFile(fileName));
 }
 
-const processInputFile = (fileName) => {
+export const processInputFile = (fileName) => {
     const gridLimit = {}
     const position = []
     const instruction = []
     try {
-        const data = fs.readFileSync(fileName, 'UTF-8');
+        const data = fs.readFileSync(path.resolve(__dirname, fileName), 'UTF-8');
         const lines = data.split(/\r?\n/);
         lines.forEach((line, index) => {
             if (!gridLimit.x && !gridLimit.y) {
@@ -23,7 +25,7 @@ const processInputFile = (fileName) => {
                 if (index & 1) {
                     position.push(line)
                 } else {
-                    const instructionString = line.length > 100 ? line.slice(0,100) : line 
+                    const instructionString = line.length > 99 ? line.slice(0,99) : line 
                     instruction.push(instructionString)
                 }
             }
@@ -36,7 +38,7 @@ const processInputFile = (fileName) => {
     }
 }
 
-const createRobots = (position, instruction) => {
+export const createRobots = (position, instruction) => {
     const robots = []
     for (let i = 0; i < position.length; i++) {
         let positionRobot = position[i].split(" ")
